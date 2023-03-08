@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ubicacion index{% endblock %}
+
+{% block body %}
+    <h1>Ubicacion index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Pasillo</th>
+                <th>Estanteria</th>
+                <th>Estante</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ubicacion in ubicacions %}
+            <tr>
+                <td>{{ ubicacion.id }}</td>
+                <td>{{ ubicacion.pasillo }}</td>
+                <td>{{ ubicacion.estanteria }}</td>
+                <td>{{ ubicacion.estante }}</td>
+                <td>
+                    <a href="{{ path('app_ubicacion_show', {'id': ubicacion.id}) }}">show</a>
+                    <a href="{{ path('app_ubicacion_edit', {'id': ubicacion.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_ubicacion_new') }}">Create new</a>
+{% endblock %}

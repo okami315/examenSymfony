@@ -31,7 +31,7 @@ class ObjetosController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $objetosRepository->save($objeto, true);
 
-            return $this->redirectToRoute('app_objetos_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_main', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('objetos/new.html.twig', [

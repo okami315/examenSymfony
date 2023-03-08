@@ -14,7 +14,8 @@
 {% endif %}
 {% if app.user %}
 	{% if is_granted('ROLE_ADMIN') %}
-		<a href="/objetos/new">Crear Objeto</a>
+		<a href="/ubicacion/new">Crear Ubicacion / Objeto</a>
+		{# <a href="/objetos/new">Crear Objeto (Recuerda que la ubicación debe ser única por cada objeto)</a> #}
 	{% endif %}
 
 	{% for objeto in objetos %}
