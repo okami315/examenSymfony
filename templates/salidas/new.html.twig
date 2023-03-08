@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Salidas{% endblock %}
+
+{% block body %}
+    <h1>Sacamos {{objeto.description}}</h1>
+
+    {{ include('salidas/_form.html.twig') }}
+
+    <a href="{{ path('app_main') }}">Volver a la vista principal</a>
+{% endblock %}

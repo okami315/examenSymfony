@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vista Principal
+{% endblock %}
+
+{% block body %}
+{% if not app.user %}
+	<div class="mb-3">
+		¿ No estas logeado ?
+		<a href="{{ path('app_login') }}">Log In</a>
+		¿ No estas registrado ?
+		<a href="{{ path('app_register') }}">Registrate</a>
+	</div>
+{% endif %}
+{% if app.user %}
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="/objetos/new">Crear Objeto</a>
+	{% endif %}
+
+	{% for objeto in objetos %}
+		{% set disponible = 0 %}
+		<p>Descripción ->{{ objeto.description}}</p>
+		<p>Cantidad ->{{ objeto.quantity}}</p>
+
+		{% if objeto.salidas is empty and objeto.entradas is empty %}
+			<p>Cantidad Disponible->{{ objeto.quantity }}</p>
+			{% set disponible = objeto.quantity %}
+		{% elseif objeto.salidas is empty and objeto.entradas is not empty %}
+			{% set total = objeto.quantity %}
+			{% for entrada in objeto.entradas %}
+				{% set total = total + entrada.quantity %}
+			{% endfor %}
+			<p>Cantidad Disponible->{{ total }}</p>
+			{% set disponible = total %}
+		{% elseif objeto.salidas is not empty and objeto.entradas is empty %}
+			{% set total = objeto.quantity %}
+			{% for salida in objeto.salidas %}
+				{% set total = total - salida.quantity %}
+
+			{% endfor %}
+			<p>Cantidad Disponible->{{ total }}</p>
+			{% set disponible = total %}
+		{% elseif objeto.salidas is not empty and objeto.entradas is not empty %}
+			{% set total = objeto.quantity %}
+			{% for salida in objeto.salidas %}
+
+				{% set total = total - salida.quantity %}
+
+			{% endfor %}
+
+			{% for entrada in objeto.entradas %}
+
+				{% set total = total + entrada.quantity %}
+
+			{% endfor %}
+			<p>Cantidad Disponible->{{ total }}</p>
+			{% set disponible = total %}
+		{% endif %}
+
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="/objetos/edit/">Editar Objeto</a>
+		{% endif %}
+
+		{% if is_granted('ROLE_USER') %}
+			{# <p>{{disponible}}</p> #}
+			<a href='salidas/new/{{objeto.id}}/{{disponible}}'>Sacar Objeto</a>
+			<a href='/entradas/new/{{objeto.id}}'>Meter Objeto</a>
+		{% endif %}
+	{% endfor %}
+</div>{% endif %}{% endblock %}
+
+
+{# Principalmente he sacado ideas de stackoverflow y una página
+de twig porque el chat gpt no me cargaba hasta último momento
+sino lo hubiese usado (no voy a mentir me he puesto muy nervioso
+al ver que no me cargaba) #}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Entradas{% endblock %}
+
+{% block body %}
+    <h1>Metemos {{objeto.description}}</h1>
+
+    {{ include('entradas/_form.html.twig') }}
+
+    <a href="{{ path('app_main') }}">Volver a la vista principal</a>
+{% endblock %}
